@@ -1,0 +1,32 @@
+<ng-container *ngIf="!isFinished; else Finished">
+  <ng-container *ngIf="!isPlaying; else Playing">
+    <div class="intro">
+      <div class="title">人間情報工学実験</div>
+      <div class="description">
+        この実験はCardの人間の応答時間モデルの追実験です。<br />
+        実験は4種類あります。<br />
+        所要時間は5分ほどです。<br />
+        以下のボタンをクリックして開始してください。
+      </div>
+      <div class="button" (click)="start()">START</div>
+    </div>
+  </ng-container>
+  <ng-template #Playing>
+    <!-- <div class="char-wrapper"> -->
+    <ng-container *ngIf="mode === 1; else NotMode1">
+      <div class="single-char">{{ moji1$ | async }}</div>
+    </ng-container>
+    <ng-template #NotMode1>
+      <div class="double-char-wrapper">
+        <div class="double-char-1">{{ moji1$ | async }}</div>
+        <div class="double-char-2">{{ moji2$ | async }}</div>
+      </div>
+    </ng-template>
+    <!-- </div> -->
+  </ng-template>
+</ng-container>
+<ng-template #Finished>
+  以下のCSVをダウンロードして、根津(u388629k@ecs.osaka-u.ac.jp)まで送信してください。
+  <div class="button" (click)="exportCSV()">ファイルをダウンロードする</div>
+  <a id="csv-download"></a>
+</ng-template>
