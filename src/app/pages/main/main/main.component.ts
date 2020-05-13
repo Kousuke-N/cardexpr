@@ -268,11 +268,11 @@ export class MainComponent implements OnInit {
           } while (category1 === category2);
           const letter1Idx =
             category1 === 2
-              ? this.randomInt(5)
+              ? this.randomInt(5) + category1 * 10
               : this.randomInt(10) + category1 * 10;
           const letter2Idx =
             category2 === 2
-              ? this.randomInt(5)
+              ? this.randomInt(5) + category2 * 10
               : this.randomInt(10) + category2 * 10;
           letter1Idx < 10
             ? this.moji1SizeRate$.next((Math.random() * 0.5 + 1) * 50)
