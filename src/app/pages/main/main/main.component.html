@@ -58,8 +58,18 @@
     </ng-container>
     <ng-template #NotMode1>
       <div class="double-char-wrapper">
-        <div class="double-char-1">{{ moji1$ | async }}</div>
-        <div class="double-char-2">{{ moji2$ | async }}</div>
+        <div
+          class="double-char-1"
+          [style.font-size]="(moji1SizeRate$ | async) + 'px'"
+        >
+          {{ moji1$ | async }}
+        </div>
+        <div
+          class="double-char-2"
+          [style.font-size]="(moji2SizeRate$ | async) + 'px'"
+        >
+          {{ moji2$ | async }}
+        </div>
       </div>
     </ng-template>
     <!-- </div> -->
