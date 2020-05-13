@@ -10,6 +10,7 @@ interface Trial {
   displayLetter1: string;
   displayLetter2: string;
   answer: string;
+  trueAnswer: string;
   time: number;
 }
 
@@ -91,9 +92,11 @@ export class MainComponent implements OnInit {
     this.isPlaying = true;
     let decideLetter = () => {};
     let record = (e: KeyboardEvent) => {};
+    let trueAnswer: string;
     if (this.mode === 1) {
       decideLetter = () => {
         this.count++;
+        trueAnswer = "y";
         this.moji1$.next(this.mode1Letters[0]);
         console.log("display:", this.moji1$.getValue());
         this.startCounter();
@@ -107,6 +110,7 @@ export class MainComponent implements OnInit {
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: "",
           answer: e.key,
+          trueAnswer,
           time: this.passingTime,
         });
         this.moji1$.next("");
@@ -117,6 +121,7 @@ export class MainComponent implements OnInit {
         this.count++;
         // 同じ文字
         if (this.randomInt(2) === 0) {
+          trueAnswer = "y";
           const letter = this.letters[this.randomInt(20)];
           console.log("same", letter);
 
@@ -124,6 +129,7 @@ export class MainComponent implements OnInit {
           this.moji2$.next(letter);
           console.log("display:", this.moji1$.getValue());
         } else {
+          trueAnswer = "n";
           const letter1Idx = this.randomInt(20);
           let letter2Idx = this.randomInt(19);
           if (letter1Idx <= letter2Idx) {
@@ -144,6 +150,7 @@ export class MainComponent implements OnInit {
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: this.moji2$.getValue(),
           answer: e.key,
+          trueAnswer,
           time: this.passingTime,
         });
         this.moji1$.next("");
@@ -155,6 +162,7 @@ export class MainComponent implements OnInit {
         this.count++;
         // 同じ文字
         if (this.randomInt(2) === 0) {
+          trueAnswer = "y";
           const letter1Idx = this.randomInt(20);
           const coreNum = letter1Idx % 10;
 
@@ -162,6 +170,7 @@ export class MainComponent implements OnInit {
           this.moji2$.next(this.letters[coreNum + 10 * this.randomInt(2)]);
           console.log("display:", this.moji1$.getValue());
         } else {
+          trueAnswer = "n";
           const letter1Idx = this.randomInt(20);
           let letter2Idx;
           do {
@@ -184,6 +193,7 @@ export class MainComponent implements OnInit {
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: this.moji2$.getValue(),
           answer: e.key,
+          trueAnswer,
           time: this.passingTime,
         });
         this.moji1$.next("");
@@ -195,6 +205,7 @@ export class MainComponent implements OnInit {
         this.count++;
         // 同じカテゴリ
         if (this.randomInt(2) === 0) {
+          trueAnswer = "y";
           const category = this.randomInt(3);
           let letter1Idx;
           let letter2Idx;
@@ -211,6 +222,7 @@ export class MainComponent implements OnInit {
           this.moji1$.next(this.letters4[letter1Idx]);
           this.moji2$.next(this.letters4[letter2Idx]);
         } else {
+          trueAnswer = "n";
           const category1 = this.randomInt(3);
           let category2;
           do {
@@ -241,6 +253,7 @@ export class MainComponent implements OnInit {
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: this.moji2$.getValue(),
           answer: e.key,
+          trueAnswer,
           time: this.passingTime,
         });
         this.moji1$.next("");
