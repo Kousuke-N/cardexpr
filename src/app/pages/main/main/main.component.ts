@@ -21,7 +21,7 @@ interface Trial {
   styleUrls: ["./main.component.scss"],
 })
 export class MainComponent implements OnInit {
-  mode = 1;
+  mode = 2;
   moji1$ = new BehaviorSubject<string>("");
   moji2$ = new BehaviorSubject<string>("");
   moji1SizeRate$ = new BehaviorSubject<number>(50);
@@ -130,8 +130,8 @@ export class MainComponent implements OnInit {
             this.moji1SizeRate$.next((Math.random() * 0.5 + 1) * 50);
             this.moji2SizeRate$.next((Math.random() * 0.5 + 1) * 50);
           } else {
-            this.moji1SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
-            this.moji2SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            this.moji1SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
+            this.moji2SizeRate$.next((Math.random() * 0.33 + 0.66) * 50);
           }
           const letter = this.letters[letterIdx];
           console.log("same", letter);
@@ -148,10 +148,10 @@ export class MainComponent implements OnInit {
           }
           letter1Idx < 10
             ? this.moji1SizeRate$.next((Math.random() * 0.5 + 1) * 50)
-            : this.moji1SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            : this.moji1SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
           letter2Idx < 10
             ? this.moji2SizeRate$.next((Math.random() * 0.5 + 1) * 50)
-            : this.moji2SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            : this.moji2SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
 
           this.moji1$.next(this.letters[letter1Idx]);
           this.moji2$.next(this.letters[letter2Idx]);
@@ -186,10 +186,10 @@ export class MainComponent implements OnInit {
           const letter2Idx = coreNum + 10 * this.randomInt(2);
           letter1Idx < 10
             ? this.moji1SizeRate$.next((Math.random() * 0.5 + 1) * 50)
-            : this.moji1SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            : this.moji1SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
           letter2Idx < 10
             ? this.moji2SizeRate$.next((Math.random() * 0.5 + 1) * 50)
-            : this.moji2SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            : this.moji2SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
 
           this.moji1$.next(this.letters[letter1Idx]);
           this.moji2$.next(this.letters[letter2Idx]);
@@ -203,10 +203,10 @@ export class MainComponent implements OnInit {
           } while (letter1Idx % 10 === letter2Idx % 10);
           letter1Idx < 10
             ? this.moji1SizeRate$.next((Math.random() * 0.5 + 1) * 50)
-            : this.moji1SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            : this.moji1SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
           letter2Idx < 10
             ? this.moji2SizeRate$.next((Math.random() * 0.5 + 1) * 50)
-            : this.moji2SizeRate$.next((Math.random() * 0.5 + 0.5) * 50);
+            : this.moji2SizeRate$.next((Math.random() * 0.33 + 0.67) * 50);
           this.moji1$.next(this.letters[letter1Idx]);
           this.moji2$.next(this.letters[letter2Idx]);
         }
