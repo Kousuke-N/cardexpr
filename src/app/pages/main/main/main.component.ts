@@ -21,7 +21,7 @@ interface Trial {
   styleUrls: ["./main.component.scss"],
 })
 export class MainComponent implements OnInit {
-  mode = 2;
+  mode = 1;
   moji1$ = new BehaviorSubject<string>("");
   moji2$ = new BehaviorSubject<string>("");
   moji1SizeRate$ = new BehaviorSubject<number>(50);
