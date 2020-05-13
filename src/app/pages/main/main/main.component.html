@@ -5,8 +5,48 @@
       <div class="description">
         この実験はCardの人間の応答時間モデルの追実験です。<br />
         実験は4種類あります。<br />
-        所要時間は5分ほどです。<br />
-        以下のボタンをクリックして開始してください。
+        全ての所要時間は5分ほどです。<br />
+        以下の説明を読んで、実験を開始してください。
+      </div>
+      <div class="detail-description">
+        <ng-container *ngIf="mode === 1">
+          1つ目の実験について説明します。
+          下のSTARTボタンを押すと、真っ白な画面に変化します。
+          しばらくすると、画面中央に<strong>1つ</strong>文字が表示されます。
+          それを確認した瞬間に<strong>y</strong>ボタンを押してください。
+          これを10回繰り返します。
+        </ng-container>
+        <ng-container *ngIf="mode === 2">
+          2つ目の実験について説明します。
+          下のSTARTボタンを押すと、1つ目の実験同様に真っ白な画面に変化します。
+          しばらくすると、画面中央に<strong>2つ</strong>文字が表示されます。
+          それが同じ文字であれば<strong>y</strong>ボタンを、
+          違う文字であれば<strong>n</strong>ボタンを直ちに押してください。
+          例えば、aとaやWとWが出れば<strong>y</strong>ボタンを押してください。
+          aとAやdとxが出れば<strong>n</strong>ボタンを押してください。
+          これを10回繰り返します。
+        </ng-container>
+        <ng-container *ngIf="mode === 3">
+          3つ目の実験について説明します。
+          下のSTARTボタンを押すと、これまで同様に真っ白な画面に変化します。
+          しばらくすると、画面中央に<strong>2つ</strong>文字が表示されます。
+          それが<strong>大文字小文字関係なく</strong>同じアルファベットであれば<strong>y</strong>ボタンを、
+          違う文字であれば<strong>n</strong>ボタンを直ちに押してください。
+          例えば、aとaや、Wとwが出れば<strong>y</strong>ボタンを押してください。
+          aとsや、Dとxが出れば<strong>n</strong>ボタンを押してください。
+          これを10回繰り返します。
+        </ng-container>
+        <ng-container *ngIf="mode === 4">
+          4つ目の実験について説明します。
+          下のSTARTボタンを押すと、これまで同様に真っ白な画面に変化します。
+          しばらくすると、画面中央に<strong>2つ</strong>文字が表示されます。
+          表示される文字は<strong>大文字</strong>か<strong>小文字</strong>か<strong>記号</strong>のいずれかです。
+          2つの文字がどちらも大文字であったり、小文字であったり、記号であれば、<strong>y</strong>ボタンを押してください。
+          そうでなければ<strong>n</strong>ボタンを直ちに押してください。
+          例えば、aとxや、CとJ、$と%が出れば<strong>y</strong>ボタンを押してください。
+          aとMや、Dと!が出れば<strong>n</strong>ボタンを押してください。
+          これを10回繰り返します。
+        </ng-container>
       </div>
       <div class="button" (click)="start()">START</div>
     </div>
@@ -26,7 +66,13 @@
   </ng-template>
 </ng-container>
 <ng-template #Finished>
-  以下のCSVをダウンロードして、根津(u388629k@ecs.osaka-u.ac.jp)まで送信してください。
-  <div class="button" (click)="exportCSV()">ファイルをダウンロードする</div>
-  <a id="csv-download"></a>
+  <div class="finish">
+    <div class="finish-description">
+      実験にご協力いただきありがとうございました。
+      以下のボタンからファイルをダウンロードして、
+      根津(u388629k@ecs.osaka-u.ac.jp)まで送信してください。
+    </div>
+    <div class="button" (click)="exportCSV()">ファイルをダウンロードする</div>
+    <a id="csv-download"></a>
+  </div>
 </ng-template>

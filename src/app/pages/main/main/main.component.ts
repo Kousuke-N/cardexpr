@@ -1,30 +1,12 @@
 import { Component, OnInit, EventEmitter, ElementRef } from "@angular/core";
-import {
-  BehaviorSubject,
-  fromEvent,
-  range,
-  interval,
-  of,
-  timer,
-  Subject,
-} from "rxjs";
-import {
-  map,
-  delay,
-  throttle,
-  repeatWhen,
-  tap,
-  concatMap,
-  repeat,
-  takeUntil,
-  delayWhen,
-  take,
-} from "rxjs/operators";
+import { BehaviorSubject, fromEvent, interval, of, timer } from "rxjs";
+import { delay, tap, concatMap, repeat, takeUntil, take } from "rxjs/operators";
 import Papa from "papaparse";
 import encoding from "encoding-japanese";
 
 interface Trial {
   count: number;
+  mode: number;
   displayLetter1: string;
   displayLetter2: string;
   answer: string;
@@ -37,7 +19,7 @@ interface Trial {
   styleUrls: ["./main.component.scss"],
 })
 export class MainComponent implements OnInit {
-  mode = 3;
+  mode = 1;
   moji1$ = new BehaviorSubject<string>("");
   moji2$ = new BehaviorSubject<string>("");
   inputKey$ = new BehaviorSubject<string>("");
@@ -121,6 +103,7 @@ export class MainComponent implements OnInit {
         console.log(this.passingTime);
         this.trials.push({
           count: this.count,
+          mode: this.mode,
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: "",
           answer: e.key,
@@ -157,6 +140,7 @@ export class MainComponent implements OnInit {
         console.log(this.passingTime);
         this.trials.push({
           count: this.count,
+          mode: this.mode,
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: this.moji2$.getValue(),
           answer: e.key,
@@ -196,6 +180,7 @@ export class MainComponent implements OnInit {
         console.log(this.passingTime);
         this.trials.push({
           count: this.count,
+          mode: this.mode,
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: this.moji2$.getValue(),
           answer: e.key,
@@ -208,22 +193,39 @@ export class MainComponent implements OnInit {
     } else if (this.mode === 4) {
       decideLetter = () => {
         this.count++;
-        // 同じ文字
+        // 同じカテゴリ
         if (this.randomInt(2) === 0) {
-          const letter1Idx = this.randomInt(25);
-          const coreNum = letter1Idx % 10;
-
-          this.moji1$.next(this.letters[letter1Idx]);
-          this.moji2$.next(this.letters[coreNum + 10 * this.randomInt(2)]);
-          console.log("display:", this.moji1$.getValue());
-        } else {
-          const letter1Idx = this.randomInt(20);
+          const category = this.randomInt(3);
+          let letter1Idx;
           let letter2Idx;
+          if (category === 0) {
+            letter1Idx = this.randomInt(10);
+            letter2Idx = this.randomInt(10);
+          } else if (category === 1) {
+            letter1Idx = this.randomInt(10) + 10;
+            letter2Idx = this.randomInt(10) + 10;
+          } else {
+            letter1Idx = this.randomInt(5) + 20;
+            letter2Idx = this.randomInt(5) + 20;
+          }
+          this.moji1$.next(this.letters4[letter1Idx]);
+          this.moji2$.next(this.letters4[letter2Idx]);
+        } else {
+          const category1 = this.randomInt(3);
+          let category2;
           do {
-            letter2Idx = this.randomInt(20);
-          } while (letter1Idx % 10 === letter2Idx % 10);
-          this.moji1$.next(this.letters[letter1Idx]);
-          this.moji2$.next(this.letters[letter2Idx]);
+            category2 = this.randomInt(3);
+          } while (category1 === category2);
+          const letter1Idx =
+            category1 === 2
+              ? this.randomInt(5)
+              : this.randomInt(10) + category1 * 10;
+          const letter2Idx =
+            category2 === 2
+              ? this.randomInt(5)
+              : this.randomInt(10) + category2 * 10;
+          this.moji1$.next(this.letters4[letter1Idx]);
+          this.moji2$.next(this.letters4[letter2Idx]);
         }
         console.log(
           `moji1:${this.moji1$.getValue()} moji2:${this.moji2$.getValue()}`
@@ -235,6 +237,7 @@ export class MainComponent implements OnInit {
         console.log(this.passingTime);
         this.trials.push({
           count: this.count,
+          mode: this.mode,
           displayLetter1: this.moji1$.getValue(),
           displayLetter2: this.moji2$.getValue(),
           answer: e.key,
@@ -256,18 +259,21 @@ export class MainComponent implements OnInit {
         concatMap(() => timer(1000 + Math.random() * 5000)),
         tap(decideLetter),
         // タイム計測開始
-        concatMap(() => fromEvent(document, "keyup")),
+        concatMap(() => fromEvent(document, "keydown")),
         // タイム計測終了
         tap(record),
         take(1),
-        repeat(3)
+        repeat(10)
       )
       .subscribe(
         (_) => {},
         (_) => {},
         () => {
           this.isPlaying = false;
-          this.isFinished = true;
+          this.mode += 1;
+          if (this.mode > 4) {
+            this.isFinished = true;
+          }
         }
       );
   }
